@@ -24576,7 +24576,7 @@
 	      React.createElement(
 	        'div',
 	        { className: 'col-md-4' },
-	        React.createElement(Carousel, null)
+	        React.createElement(Carousel, { name: this.state.bio.name })
 	      ),
 	      React.createElement(
 	        'div',
@@ -24640,6 +24640,7 @@
 	  displayName: 'Carousel',
 
 	  render: function render() {
+	    console.log(this.props);
 	    return React.createElement(
 	      'div',
 	      null,

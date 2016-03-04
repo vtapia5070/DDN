@@ -21,7 +21,7 @@ var Home = React.createClass({
     return (
       <div className="row">
         <div className="col-md-4">
-          <Carousel />
+          <Carousel name={this.state.bio.name}/>
         </div>
         <div className="col-md-4">
           <ShowsNav />
