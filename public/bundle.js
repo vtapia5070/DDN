@@ -24460,10 +24460,9 @@
 
 	var navStyles = {
 	  bar: {
-	    backgroundColor: "rgba(52, 73, 94, 0.9)!important",
 	    fontFamily: "PT Serif, serif",
 	    fontSize: "20px",
-	    color: "#bdc3c7!important",
+	    color: "rgb(52, 73, 94)!important",
 	    padding: "1% 0"
 
 	  },
@@ -24554,17 +24553,18 @@
 	*/
 
 	var React = __webpack_require__(1);
+	var Carousel = __webpack_require__(214);
+	var ShowsNav = __webpack_require__(215);
 
 	var Home = React.createClass({
 	  displayName: 'Home',
 
 	  getInitialState: function getInitialState() {
 	    return {
-	      notes: [],
 	      bio: {
-	        name: ''
+	        name: 'Victoria'
 	      },
-	      repos: []
+	      repos: "vtapia5070"
 	    };
 	  },
 	  render: function render() {
@@ -24575,12 +24575,12 @@
 	      React.createElement(
 	        'div',
 	        { className: 'col-md-4' },
-	        'Shows Image Crousel'
+	        React.createElement(Carousel, null)
 	      ),
 	      React.createElement(
 	        'div',
 	        { className: 'col-md-4' },
-	        'Show Titles Navbar'
+	        React.createElement(ShowsNav, null)
 	      ),
 	      React.createElement(
 	        'div',
@@ -24626,6 +24626,50 @@
 	});
 
 	module.exports = Shows;
+
+/***/ },
+/* 214 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var React = __webpack_require__(1);
+
+	var Carousel = React.createClass({
+	  displayName: 'Carousel',
+
+	  render: function render() {
+	    return React.createElement(
+	      'div',
+	      null,
+	      'Bootstrap Carousel With Show Images Here'
+	    );
+	  }
+	});
+
+	module.exports = Carousel;
+
+/***/ },
+/* 215 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var React = __webpack_require__(1);
+
+	var ShowsNav = React.createClass({
+	  displayName: 'ShowsNav',
+
+	  render: function render() {
+	    return React.createElement(
+	      'div',
+	      null,
+	      'Nav Bar With Show Titles Here'
+	    );
+	  }
+	});
+
+	module.exports = ShowsNav;
 
 /***/ }
 /******/ ]);

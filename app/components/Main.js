@@ -7,10 +7,9 @@ var React = require('react');
 
 var navStyles = {
   bar: {
-    backgroundColor: "rgba(52, 73, 94, 0.9)!important",
     fontFamily: "PT Serif, serif",
     fontSize: "20px",
-    color: "#bdc3c7!important",
+    color: "rgb(52, 73, 94)!important",
     padding: "1% 0",
 
   },

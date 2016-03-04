@@ -9,7 +9,7 @@ var Router = require('react-router').Router;
 var Shows = React.createClass({
   getInitialState: function () {
     return {
-      shows: []
+      shows: [],
     }
   },
   render: function () {

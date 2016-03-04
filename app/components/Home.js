@@ -3,15 +3,16 @@ This Component will render the home page with a list of all shows
 */
 
 var React = require('react');
+var Carousel = require('./Carousel');
+var ShowsNav= require('./ShowsNav');
 
 var Home = React.createClass({
   getInitialState: function(){
     return {
-      notes: [],
       bio: {
-        name: ''
+        name: 'Victoria'
       },
-      repos: []
+      repos: "vtapia5070"
     }
   },
   render: function(){
@@ -19,10 +20,10 @@ var Home = React.createClass({
     return (
       <div className="row">
         <div className="col-md-4">
-          Shows Image Crousel
+          <Carousel />
         </div>
         <div className="col-md-4">
-          Show Titles Navbar
+          <ShowsNav />
         </div>
         <div className="col-md-4">
           Show Thumbnails and descriptions
