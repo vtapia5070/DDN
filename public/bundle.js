@@ -24556,6 +24556,7 @@
 	var Carousel = __webpack_require__(214);
 	var ShowsNav = __webpack_require__(215);
 	var Grid = __webpack_require__(216);
+	var url = "http://api.ddn.io/v1/homepage?domain=testtube.com";
 
 	var Home = React.createClass({
 	  displayName: 'Home',
@@ -24563,11 +24564,25 @@
 	  getInitialState: function getInitialState() {
 	    return {
 	      bio: {
-	        name: 'Victoria'
+	        name: ''
 	      },
-	      repos: "vtapia5070"
+	      episodes: [],
+	      shows: []
 	    };
 	  },
+
+	  componentDidMount: function componentDidMount() {
+	    this.serverRequest = $.get(url, function (result) {
+	      console.log("API RESULT:", result.episodes.data);
+	      var episodes = result.episodes.data;
+	      // do something here to filter data and set to state
+	      this.setState({
+	        bio: "THIS IS MY NAME",
+	        repos: "github.com/vtapia5070"
+	      });
+	    }.bind(this));
+	  },
+
 	  render: function render() {
 	    console.log(this.props);
 	    return React.createElement(
