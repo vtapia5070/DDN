@@ -24555,6 +24555,7 @@
 	var React = __webpack_require__(1);
 	var Carousel = __webpack_require__(214);
 	var ShowsNav = __webpack_require__(215);
+	var Grid = __webpack_require__(216);
 
 	var Home = React.createClass({
 	  displayName: 'Home',
@@ -24585,7 +24586,7 @@
 	      React.createElement(
 	        'div',
 	        { className: 'col-md-4' },
-	        'Show Thumbnails and descriptions'
+	        React.createElement(Grid, null)
 	      )
 	    );
 	  }
@@ -24670,6 +24671,28 @@
 	});
 
 	module.exports = ShowsNav;
+
+/***/ },
+/* 216 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var React = __webpack_require__(1);
+
+	var Grid = React.createClass({
+	  displayName: 'Grid',
+
+	  render: function render() {
+	    return React.createElement(
+	      'div',
+	      null,
+	      'Grid of show/episode thumbnails here'
+	    );
+	  }
+	});
+
+	module.exports = Grid;
 
 /***/ }
 /******/ ]);

@@ -5,6 +5,7 @@ This Component will render the home page with a list of all shows
 var React = require('react');
 var Carousel = require('./Carousel');
 var ShowsNav= require('./ShowsNav');
+var Grid = require('./ThumbnailsGrid');
 
 var Home = React.createClass({
   getInitialState: function(){
@@ -26,7 +27,7 @@ var Home = React.createClass({
           <ShowsNav />
         </div>
         <div className="col-md-4">
-          Show Thumbnails and descriptions
+          <Grid />
         </div>
       </div>
     )
