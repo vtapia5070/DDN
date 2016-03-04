@@ -1,3 +1,7 @@
+/*
+This Component will render the home page with a list of all shows
+*/
+
 var React = require('react');
 
 var Home = React.createClass({
