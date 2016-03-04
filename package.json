@@ -19,8 +19,10 @@
   },
   "homepage": "https://github.com/vtapia5070/DDN#readme",
   "dependencies": {
+    "history": "^1.13.1",
     "react": "^0.14.7",
-    "react-dom": "^0.14.7"
+    "react-dom": "^0.14.7",
+    "react-router": "^1.0.1"
   },
   "devDependencies": {
     "babel-core": "^6.3.26",
