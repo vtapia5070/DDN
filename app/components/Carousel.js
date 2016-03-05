@@ -3,31 +3,15 @@ var Helpers = require('../Helpers').carouselHelpers;
 
 var Carousel = React.createClass({
   render: function () {
-    var styles = {
-      maxWidth: "100%",
-      maxHeight: "200px !important"
-    }
-    var myStyles = {
-      container: {
-        marginLeft: "0px!important",
-        marginRight: "0px!important",
-        minWidth: "100%",
-        width: "100%",
-        textAlign: "center"
-      },
-      inner: {
-        minWidth: "inherit!important",
-        width: "inherit!important"
-      }
-    }
+    
     if (!this.props.data.length) {
       return (
         <div>No Data</div>
       )
     }
     return (
-      <div style={myStyles.inner}>
-        <div style={myStyles.inner} id="carousel-example-generic" className="carousel slide" data-ride="carousel" data-interval="3000">
+      <div >
+        <div id="carousel-example-generic" className="carousel slide" data-ride="carousel" data-interval="3000">
           {Helpers.createOrderedList(this.props.data)}
 
           {Helpers.createSlides(this.props.data)}

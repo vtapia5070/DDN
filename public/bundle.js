@@ -24616,23 +24616,7 @@
 	  displayName: 'Carousel',
 
 	  render: function render() {
-	    var styles = {
-	      maxWidth: "100%",
-	      maxHeight: "200px !important"
-	    };
-	    var myStyles = {
-	      container: {
-	        marginLeft: "0px!important",
-	        marginRight: "0px!important",
-	        minWidth: "100%",
-	        width: "100%",
-	        textAlign: "center"
-	      },
-	      inner: {
-	        minWidth: "inherit!important",
-	        width: "inherit!important"
-	      }
-	    };
+
 	    if (!this.props.data.length) {
 	      return React.createElement(
 	        'div',
@@ -24642,10 +24626,10 @@
 	    }
 	    return React.createElement(
 	      'div',
-	      { style: myStyles.inner },
+	      null,
 	      React.createElement(
 	        'div',
-	        { style: myStyles.inner, id: 'carousel-example-generic', className: 'carousel slide', 'data-ride': 'carousel', 'data-interval': '3000' },
+	        { id: 'carousel-example-generic', className: 'carousel slide', 'data-ride': 'carousel', 'data-interval': '3000' },
 	        Helpers.createOrderedList(this.props.data),
 	        Helpers.createSlides(this.props.data),
 	        React.createElement(
@@ -24785,6 +24769,9 @@
 	      );
 	    },
 	    createSlides: function createSlideInner(data) {
+	      var Styles = {
+	        backgroundColor: "rgba(0,0,0,0.6)"
+	      };
 	      var slides = [];
 	      for (var i = 0; i < data.length; i++) {
 	        if (i === 0) {
@@ -24794,7 +24781,7 @@
 	            React.createElement("img", { src: data[i].episodeCover, alt: data[i].showName }),
 	            React.createElement(
 	              "div",
-	              { className: "carousel-caption" },
+	              { style: Styles, className: "carousel-caption" },
 	              React.createElement(
 	                "h1",
 	                null,
@@ -24806,7 +24793,7 @@
 	                data[i].episodeTitle
 	              ),
 	              React.createElement(
-	                "p",
+	                "h5",
 	                null,
 	                data[i].episodeDes
 	              )
@@ -24819,8 +24806,22 @@
 	            React.createElement("img", { src: data[i].episodeCover, alt: data[i].showName }),
 	            React.createElement(
 	              "div",
-	              { className: "carousel-caption" },
-	              data[i].episodeTitle
+	              { style: Styles, className: "carousel-caption" },
+	              React.createElement(
+	                "h1",
+	                null,
+	                data[i].showName
+	              ),
+	              React.createElement(
+	                "h3",
+	                null,
+	                data[i].episodeTitle
+	              ),
+	              React.createElement(
+	                "h5",
+	                null,
+	                data[i].episodeDes
+	              )
 	            )
 	          ));
 	        }

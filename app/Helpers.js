@@ -45,26 +45,31 @@ module.exports = {
       return <ol className="carousel-indicators"> {list} </ol>
     },
     createSlides: function createSlideInner(data){
+      var Styles = {
+        backgroundColor: "rgba(0,0,0,0.6)"
+      }
       var slides = []; 
       for(var i = 0; i < data.length; i++){
         if(i === 0){
           slides.push(
             <div className="item active" key={data[i].episodeTitle}>
-               <img src={data[i].episodeCover} alt={data[i].showName} />
-              <div className="carousel-caption">
+              <img src={data[i].episodeCover} alt={data[i].showName} />
+              <div style={Styles} className="carousel-caption">
                 <h1>{data[i].showName}</h1>
                 <h3>{data[i].episodeTitle}</h3>
-                <p>{data[i].episodeDes}</p>
+                <h5>{data[i].episodeDes}</h5>
               </div>
             </div>
           )
         }else{
           slides.push(
             <div className="item" key={data[i].episodeTitle}>
-            <img src={data[i].episodeCover} alt={data[i].showName} />
-             <div className="carousel-caption">
-              {data[i].episodeTitle}
-             </div>
+              <img src={data[i].episodeCover} alt={data[i].showName} />
+              <div style={Styles} className="carousel-caption">
+                <h1>{data[i].showName}</h1>
+                <h3>{data[i].episodeTitle}</h3>
+                <h5>{data[i].episodeDes}</h5>
+              </div>
             </div>
           )
         }
