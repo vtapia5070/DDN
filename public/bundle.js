@@ -24435,7 +24435,7 @@
 	var Home = __webpack_require__(212);
 	var Router = __webpack_require__(159);
 	var Route = Router.Route;
-	var Show = __webpack_require__(213);
+	var Show = __webpack_require__(217);
 	var IndexRoute = Router.IndexRoute;
 
 	module.exports = React.createElement(
@@ -24458,26 +24458,22 @@
 
 	var React = __webpack_require__(1);
 
-	var navStyles = {
-	  bar: {
+	var Styles = {
+	  navbar: {
 	    fontFamily: "PT Serif, serif",
 	    fontSize: "20px",
-	    color: "rgb(52, 73, 94)!important",
-	    padding: "1% 0"
-
+	    margin: "0px !important"
 	  },
-	  left: {
-	    display: "inline-block",
-	    float: "left",
-	    textAlign: "center",
+	  navLeft: {
 	    fontSize: "25px",
 	    fontWeight: 600
 	  },
-	  right: {
-	    float: "right",
-	    textAlign: "center",
-	    fontStyle: "italic",
+	  navRight: {
+	    fontSize: "19px",
 	    fontWeight: 500
+	  },
+	  container: {
+	    padding: "0px!important"
 	  }
 	};
 
@@ -24495,21 +24491,21 @@
 	      { className: "main-container" },
 	      React.createElement(
 	        "nav",
-	        { style: navStyles.bar, className: "navbar navbar-default", role: "navigation" },
+	        { style: Styles.navbar, className: "navbar navbar-default", role: "navigation" },
 	        React.createElement(
-	          "div",
-	          { style: navStyles.left, className: "col-md-4" },
+	          "p",
+	          { style: Styles.navLeft, className: "col-md-4 navbar-brand" },
 	          "Discover Digital Networks"
 	        ),
 	        React.createElement(
-	          "div",
-	          { style: navStyles.right, className: "col-md-3" },
+	          "p",
+	          { style: Styles.navRight, className: "col-md-2 navbar-text navbar-right" },
 	          this.state.date
 	        )
 	      ),
 	      React.createElement(
 	        "div",
-	        { className: "container" },
+	        { style: Styles.container, className: "col-lg-12" },
 	        this.props.children
 	      )
 	    );
@@ -24526,13 +24522,14 @@
 
 	  function getDay() {
 	    var num = date.getDate();
+	    console.log(num);
 	    if (num === 1 || num[1] === 1) {
 	      return num + "st";
 	    } else if (num === 2 || num[1] === 2) {
 	      return num + "nd";
 	    } else if (num === 3 || num[1] === 3) {
 	      return num + "rd";
-	    } else if (num === 4 || num[1] === 4 || num[1] === 0) {
+	    } else if (num >= 4 && num <= 9 || num[1] >= 4 && num <= 9 || num[1] === 0) {
 	      return num + "th";
 	    }
 	  }
@@ -24553,9 +24550,10 @@
 	*/
 
 	var React = __webpack_require__(1);
-	var Carousel = __webpack_require__(214);
-	var ShowsNav = __webpack_require__(215);
-	var Grid = __webpack_require__(216);
+	var Carousel = __webpack_require__(213);
+	var ShowsNav = __webpack_require__(214);
+	var Grid = __webpack_require__(215);
+	var Helpers = __webpack_require__(216).dataHelpers;
 	var url = "http://api.ddn.io/v1/homepage?domain=testtube.com";
 
 	var Home = React.createClass({
@@ -24563,44 +24561,40 @@
 
 	  getInitialState: function getInitialState() {
 	    return {
-	      bio: {
-	        name: ''
-	      },
-	      episodes: [],
-	      shows: []
+	      carousel: [],
+	      shows: {}
 	    };
 	  },
 
 	  componentDidMount: function componentDidMount() {
 	    this.serverRequest = $.get(url, function (result) {
-	      console.log("API RESULT:", result.episodes.data);
-	      var episodes = result.episodes.data;
-	      // do something here to filter data and set to state
+	      var showsList = Helpers.getShows(result.episodes.data);
+	      var carouselData = Helpers.getCarouselData(showsList);
 	      this.setState({
-	        bio: "THIS IS MY NAME",
-	        repos: "github.com/vtapia5070"
+	        carousel: carouselData,
+	        shows: showsList
 	      });
 	    }.bind(this));
 	  },
 
 	  render: function render() {
-	    console.log(this.props);
+	    console.log(this.state);
+	    var styles = {
+	      minWidth: "inherit !important",
+	      width: "inherit !important"
+	    };
 	    return React.createElement(
 	      'div',
-	      { className: 'row' },
+	      { style: styles },
+	      React.createElement(Carousel, { data: this.state.carousel }),
 	      React.createElement(
 	        'div',
-	        { className: 'col-md-4' },
-	        React.createElement(Carousel, { name: this.state.bio.name })
-	      ),
-	      React.createElement(
-	        'div',
-	        { className: 'col-md-4' },
+	        null,
 	        React.createElement(ShowsNav, null)
 	      ),
 	      React.createElement(
 	        'div',
-	        { className: 'col-md-4' },
+	        null,
 	        React.createElement(Grid, null)
 	      )
 	    );
@@ -24611,6 +24605,257 @@
 
 /***/ },
 /* 213 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var React = __webpack_require__(1);
+	var Helpers = __webpack_require__(216).carouselHelpers;
+
+	var Carousel = React.createClass({
+	  displayName: 'Carousel',
+
+	  render: function render() {
+	    var styles = {
+	      maxWidth: "100%",
+	      maxHeight: "200px !important"
+	    };
+	    var myStyles = {
+	      container: {
+	        marginLeft: "0px!important",
+	        marginRight: "0px!important",
+	        minWidth: "100%",
+	        width: "100%",
+	        textAlign: "center"
+	      },
+	      inner: {
+	        minWidth: "inherit!important",
+	        width: "inherit!important"
+	      }
+	    };
+	    if (!this.props.data.length) {
+	      return React.createElement(
+	        'div',
+	        null,
+	        'No Data'
+	      );
+	    }
+	    return React.createElement(
+	      'div',
+	      { style: myStyles.inner },
+	      React.createElement(
+	        'div',
+	        { style: myStyles.inner, id: 'carousel-example-generic', className: 'carousel slide', 'data-ride': 'carousel', 'data-interval': '3000' },
+	        Helpers.createOrderedList(this.props.data),
+	        Helpers.createSlides(this.props.data),
+	        React.createElement(
+	          'a',
+	          { className: 'left carousel-control', href: '#carousel-example-generic', role: 'button', 'data-slide': 'prev' },
+	          React.createElement('span', { className: 'glyphicon glyphicon-chevron-left', 'aria-hidden': 'true' }),
+	          React.createElement(
+	            'span',
+	            { className: 'sr-only' },
+	            'Previous'
+	          )
+	        ),
+	        React.createElement(
+	          'a',
+	          { className: 'right carousel-control', href: '#carousel-example-generic', role: 'button', 'data-slide': 'next' },
+	          React.createElement('span', { className: 'glyphicon glyphicon-chevron-right', 'aria-hidden': 'true' }),
+	          React.createElement(
+	            'span',
+	            { className: 'sr-only' },
+	            'Next'
+	          )
+	        )
+	      )
+	    );
+	  }
+	});
+
+	module.exports = Carousel;
+
+/***/ },
+/* 214 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var React = __webpack_require__(1);
+
+	var ShowsNav = React.createClass({
+	  displayName: 'ShowsNav',
+
+	  render: function render() {
+	    return React.createElement(
+	      'div',
+	      null,
+	      'Nav Bar With Show Titles Here'
+	    );
+	  }
+	});
+
+	module.exports = ShowsNav;
+
+/***/ },
+/* 215 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	/*
+	This component creates the view for all of the shows
+	or episodes and renders a grid-like table of thumbnails
+	and descriptions.
+	http://getbootstrap.com/components/#thumbnails
+	*/
+
+	var React = __webpack_require__(1);
+
+	var Grid = React.createClass({
+	  displayName: 'Grid',
+
+	  render: function render() {
+	    return React.createElement(
+	      'div',
+	      null,
+	      'Grid of show/episode thumbnails here'
+	    );
+	  }
+	});
+
+	module.exports = Grid;
+
+/***/ },
+/* 216 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	/*
+	Helper functions 
+	  DataHelpers - restructure data response from API endpoint
+	  CarouselHelpers - iterate through component propes to create jsx epressions
+	*/
+	var React = __webpack_require__(1);
+
+	module.exports = {
+	  dataHelpers: {
+	    getShows: function getShows(data) {
+	      var shows = {};
+	      for (var i = 0; i < data.length; i++) {
+	        if (!shows[data[i].show.data.slug]) {
+	          shows[data[i].show.data.slug] = Show(data[i].show.data.name);
+	        }
+	        var episode = Episode(data[i].name, data[i].summary, data[i].thumbnails.small.data.url, data[i].thumbnails.large.data.url);
+	        shows[data[i].show.data.slug].episodes.push(episode);
+	      }
+	      return shows;
+	    },
+	    getCarouselData: function getCarouselData(list) {
+	      var shows = [];
+	      for (var key in list) {
+	        shows.push({
+	          showName: list[key].name,
+	          episodeTitle: list[key].episodes[0].title,
+	          episodeDes: list[key].episodes[0].description,
+	          episodeCover: list[key].episodes[0].cover
+	        });
+	      }
+	      return shows;
+	    }
+	  },
+	  carouselHelpers: {
+	    createOrderedList: function createOrderedList(data) {
+	      var list = [];
+	      for (var i = 0; i < data.length; i++) {
+	        if (i === 0) {
+	          list.push(React.createElement("li", { key: i, "data-target": "#carousel-example-generic", "data-slide-to": i, className: "active" }));
+	        } else {
+	          list.push(React.createElement("li", { key: i, "data-target": "#carousel-example-generic", "data-slide-to": i }));
+	        }
+	      }
+	      console.log("LIST:", list.length);
+	      return React.createElement(
+	        "ol",
+	        { className: "carousel-indicators" },
+	        " ",
+	        list,
+	        " "
+	      );
+	    },
+	    createSlides: function createSlideInner(data) {
+	      var slides = [];
+	      for (var i = 0; i < data.length; i++) {
+	        if (i === 0) {
+	          slides.push(React.createElement(
+	            "div",
+	            { className: "item active", key: data[i].episodeTitle },
+	            React.createElement("img", { src: data[i].episodeCover, alt: data[i].showName }),
+	            React.createElement(
+	              "div",
+	              { className: "carousel-caption" },
+	              React.createElement(
+	                "h1",
+	                null,
+	                data[i].showName
+	              ),
+	              React.createElement(
+	                "h3",
+	                null,
+	                data[i].episodeTitle
+	              ),
+	              React.createElement(
+	                "p",
+	                null,
+	                data[i].episodeDes
+	              )
+	            )
+	          ));
+	        } else {
+	          slides.push(React.createElement(
+	            "div",
+	            { className: "item", key: data[i].episodeTitle },
+	            React.createElement("img", { src: data[i].episodeCover, alt: data[i].showName }),
+	            React.createElement(
+	              "div",
+	              { className: "carousel-caption" },
+	              data[i].episodeTitle
+	            )
+	          ));
+	        }
+	      }
+	      return React.createElement(
+	        "div",
+	        { className: "carousel-inner", role: "listbox" },
+	        " ",
+	        slides,
+	        " "
+	      );
+	    }
+	  }
+	};
+
+	// constructor function to create show obj
+	function Show(name) {
+	  return {
+	    name: name,
+	    episodes: []
+	  };
+	}
+
+	// constructor function to create Episode obj
+	function Episode(title, description, thumbnail, cover) {
+	  return {
+	    title: title,
+	    description: description,
+	    thumbnail: thumbnail,
+	    cover: cover
+	  };
+	};
+
+/***/ },
+/* 217 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -24642,73 +24887,6 @@
 	});
 
 	module.exports = Shows;
-
-/***/ },
-/* 214 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var React = __webpack_require__(1);
-
-	var Carousel = React.createClass({
-	  displayName: 'Carousel',
-
-	  render: function render() {
-	    console.log(this.props);
-	    return React.createElement(
-	      'div',
-	      null,
-	      'Bootstrap Carousel With Show Images Here'
-	    );
-	  }
-	});
-
-	module.exports = Carousel;
-
-/***/ },
-/* 215 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var React = __webpack_require__(1);
-
-	var ShowsNav = React.createClass({
-	  displayName: 'ShowsNav',
-
-	  render: function render() {
-	    return React.createElement(
-	      'div',
-	      null,
-	      'Nav Bar With Show Titles Here'
-	    );
-	  }
-	});
-
-	module.exports = ShowsNav;
-
-/***/ },
-/* 216 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var React = __webpack_require__(1);
-
-	var Grid = React.createClass({
-	  displayName: 'Grid',
-
-	  render: function render() {
-	    return React.createElement(
-	      'div',
-	      null,
-	      'Grid of show/episode thumbnails here'
-	    );
-	  }
-	});
-
-	module.exports = Grid;
 
 /***/ }
 /******/ ]);

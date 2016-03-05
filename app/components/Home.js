@@ -6,42 +6,41 @@ var React = require('react');
 var Carousel = require('./Carousel');
 var ShowsNav= require('./ShowsNav');
 var Grid = require('./ThumbnailsGrid');
+var Helpers = require('../Helpers').dataHelpers;
 var url = "http://api.ddn.io/v1/homepage?domain=testtube.com";
 
 var Home = React.createClass({
   getInitialState: function(){
     return {
-      bio: {
-        name: ''
-      },
-      episodes: [],
-      shows: []
+      carousel: [],
+      shows: {}
     }
   },
 
   componentDidMount: function() {
     this.serverRequest = $.get(url, function (result) {
-      console.log("API RESULT:", result.episodes.data);
-      var episodes = result.episodes.data;
-      // do something here to filter data and set to state
+      var showsList = Helpers.getShows(result.episodes.data);
+      var carouselData = Helpers.getCarouselData(showsList);
       this.setState({
-        bio: "THIS IS MY NAME",
-        repos: "github.com/vtapia5070"
+        carousel: carouselData,
+        shows: showsList
       });
     }.bind(this));
   },
 
   render: function(){
-    console.log(this.props)
+    console.log(this.state);
+    var styles = {
+      minWidth: "inherit !important",
+      width: "inherit !important"
+    };
     return (
-      <div className="row">
-        <div className="col-md-4">
-          <Carousel name={this.state.bio.name}/>
-        </div>
-        <div className="col-md-4">
+      <div style={styles}>
+        <Carousel data={this.state.carousel}/>
+        <div>
           <ShowsNav />
         </div>
-        <div className="col-md-4">
+        <div>
           <Grid />
         </div>
       </div>
