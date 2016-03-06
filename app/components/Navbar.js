@@ -4,6 +4,7 @@ and children components (home and shows component)
 */
 
 var React = require('react');
+var navbarHelpers = require('../Helpers/navbarHelpers');
 
 var Styles = {
   navbar: {
@@ -24,10 +25,10 @@ var Styles = {
   }
 };
 
-var Main = React.createClass({
+var Navbar = React.createClass({
   getInitialState: function () {
     return {
-      date: getDate()
+      date: navbarHelpers.getDate()
     }
   },
   render: function(){
@@ -35,7 +36,7 @@ var Main = React.createClass({
       <div className="main-container">
         <nav style={Styles.navbar} className="navbar navbar-default" role="navigation">
           <p style={Styles.navLeft} className="col-md-4 navbar-brand">
-            Discover Digital Networks
+            Discovery Digital Networks
           </p>
           <p style={Styles.navRight} className="col-md-2 navbar-text navbar-right" >
             {this.state.date}
@@ -49,29 +50,4 @@ var Main = React.createClass({
   }
 });
 
-function getDate () {
-  var date = new Date;
-
-  function getMonth () {
-    var months = ["January", "Febuary", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-    return months[date.getMonth()];
-  }
-
-  function getDay () {
-    var num = date.getDate();
-    console.log(num);
-    if (num === 1 || num[1] === 1) {
-      return num+"st";
-    } else if (num === 2 || num[1] === 2) {
-      return num+"nd";
-    } else if (num === 3 || num[1] === 3) {
-      return num+"rd";
-    } else if (num >= 4 && num <= 9 || num[1] >= 4 && num <= 9 || num[1] === 0) {
-      return num+"th";
-    }
-  }
-
-  return getMonth() + " " + getDay() + ", " + date.getFullYear();
-}
-
-module.exports = Main;
+module.exports = Navbar;
