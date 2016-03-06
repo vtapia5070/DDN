@@ -24431,16 +24431,16 @@
 	'use strict';
 
 	var React = __webpack_require__(1);
-	var Main = __webpack_require__(211);
-	var Home = __webpack_require__(212);
+	var Navbar = __webpack_require__(211);
+	var Home = __webpack_require__(213);
 	var Router = __webpack_require__(159);
 	var Route = Router.Route;
-	var Show = __webpack_require__(217);
+	var Show = __webpack_require__(219);
 	var IndexRoute = Router.IndexRoute;
 
 	module.exports = React.createElement(
 	  Route,
-	  { path: '/', component: Main },
+	  { path: '/', component: Navbar },
 	  React.createElement(Route, { path: 'show/:title', component: Show }),
 	  React.createElement(IndexRoute, { component: Home })
 	);
@@ -24449,7 +24449,7 @@
 /* 211 */
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 
 	/*
 	This is the main component containing the nav bar
@@ -24457,6 +24457,7 @@
 	*/
 
 	var React = __webpack_require__(1);
+	var navbarHelpers = __webpack_require__(212);
 
 	var Styles = {
 	  navbar: {
@@ -24477,70 +24478,81 @@
 	  }
 	};
 
-	var Main = React.createClass({
-	  displayName: "Main",
+	var Navbar = React.createClass({
+	  displayName: 'Navbar',
 
 	  getInitialState: function getInitialState() {
 	    return {
-	      date: getDate()
+	      date: navbarHelpers.getDate()
 	    };
 	  },
 	  render: function render() {
 	    return React.createElement(
-	      "div",
-	      { className: "main-container" },
+	      'div',
+	      { className: 'main-container' },
 	      React.createElement(
-	        "nav",
-	        { style: Styles.navbar, className: "navbar navbar-default", role: "navigation" },
+	        'nav',
+	        { style: Styles.navbar, className: 'navbar navbar-default', role: 'navigation' },
 	        React.createElement(
-	          "p",
-	          { style: Styles.navLeft, className: "col-md-4 navbar-brand" },
-	          "Discover Digital Networks"
+	          'p',
+	          { style: Styles.navLeft, className: 'col-md-4 navbar-brand' },
+	          'Discovery Digital Networks'
 	        ),
 	        React.createElement(
-	          "p",
-	          { style: Styles.navRight, className: "col-md-2 navbar-text navbar-right" },
+	          'p',
+	          { style: Styles.navRight, className: 'col-md-2 navbar-text navbar-right' },
 	          this.state.date
 	        )
 	      ),
 	      React.createElement(
-	        "div",
-	        { style: Styles.container, className: "col-lg-12" },
+	        'div',
+	        { style: Styles.container, className: 'col-lg-12' },
 	        this.props.children
 	      )
 	    );
 	  }
 	});
 
-	function getDate() {
-	  var date = new Date();
-
-	  function getMonth() {
-	    var months = ["January", "Febuary", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-	    return months[date.getMonth()];
-	  }
-
-	  function getDay() {
-	    var num = date.getDate();
-	    console.log(num);
-	    if (num === 1 || num[1] === 1) {
-	      return num + "st";
-	    } else if (num === 2 || num[1] === 2) {
-	      return num + "nd";
-	    } else if (num === 3 || num[1] === 3) {
-	      return num + "rd";
-	    } else if (num >= 4 && num <= 9 || num[1] >= 4 && num <= 9 || num[1] === 0) {
-	      return num + "th";
-	    }
-	  }
-
-	  return getMonth() + " " + getDay() + ", " + date.getFullYear();
-	}
-
-	module.exports = Main;
+	module.exports = Navbar;
 
 /***/ },
 /* 212 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	/*
+	This helper method generates the current date to be rendered in the navigation bar.
+	*/
+
+	module.exports = {
+	  getDate: function getDate() {
+	    var date = new Date();
+
+	    function getMonth() {
+	      var months = ["January", "Febuary", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+	      return months[date.getMonth()];
+	    }
+
+	    function getDay() {
+	      var num = date.getDate();
+	      if (num === 1 || num[1] === 1) {
+	        return num + "st";
+	      } else if (num === 2 || num[1] === 2) {
+	        return num + "nd";
+	      } else if (num === 3 || num[1] === 3) {
+	        return num + "rd";
+	      } else if (num >= 4 && num <= 9 || num[1] >= 4 && num <= 9 || num[1] === 0) {
+	        return num + "th";
+	      }
+	    }
+
+	    return getMonth() + " " + getDay() + ", " + date.getFullYear();
+	  }
+	};
+
+/***/ },
+/* 213 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -24550,10 +24562,10 @@
 	*/
 
 	var React = __webpack_require__(1);
-	var Carousel = __webpack_require__(213);
-	var ShowsNav = __webpack_require__(214);
-	var Grid = __webpack_require__(215);
-	var Helpers = __webpack_require__(216).dataHelpers;
+	var Carousel = __webpack_require__(214);
+	var ShowsNav = __webpack_require__(216);
+	var Grid = __webpack_require__(217);
+	var dataHelpers = __webpack_require__(218);
 	var url = "http://api.ddn.io/v1/homepage?domain=testtube.com";
 
 	var Home = React.createClass({
@@ -24568,8 +24580,8 @@
 
 	  componentDidMount: function componentDidMount() {
 	    this.serverRequest = $.get(url, function (result) {
-	      var showsList = Helpers.getShows(result.episodes.data);
-	      var carouselData = Helpers.getCarouselData(showsList);
+	      var showsList = dataHelpers.getShows(result.episodes.data);
+	      var carouselData = dataHelpers.getCarouselData(showsList);
 	      this.setState({
 	        carousel: carouselData,
 	        shows: showsList
@@ -24578,24 +24590,22 @@
 	  },
 
 	  render: function render() {
-	    console.log(this.state);
 	    var styles = {
-	      minWidth: "inherit !important",
-	      width: "inherit !important"
+	      main: {
+	        background: "#34495e"
+	      },
+	      container: {
+	        background: "#f8f8f8"
+	      }
 	    };
 	    return React.createElement(
 	      'div',
-	      { style: styles },
+	      { style: styles.main },
 	      React.createElement(Carousel, { data: this.state.carousel }),
 	      React.createElement(
 	        'div',
-	        null,
-	        React.createElement(ShowsNav, null)
-	      ),
-	      React.createElement(
-	        'div',
-	        null,
-	        React.createElement(Grid, null)
+	        { style: styles.container, className: 'container' },
+	        React.createElement(ShowsNav, { data: this.state.shows })
 	      )
 	    );
 	  }
@@ -24604,19 +24614,21 @@
 	module.exports = Home;
 
 /***/ },
-/* 213 */
+/* 214 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	var React = __webpack_require__(1);
-	var Helpers = __webpack_require__(216).carouselHelpers;
+	var carouselHelpers = __webpack_require__(215);
 
 	var Carousel = React.createClass({
 	  displayName: 'Carousel',
 
 	  render: function render() {
-
+	    var containerStyles = {
+	      height: "75vh!important"
+	    };
 	    if (!this.props.data.length) {
 	      return React.createElement(
 	        'div',
@@ -24629,9 +24641,9 @@
 	      null,
 	      React.createElement(
 	        'div',
-	        { id: 'carousel-example-generic', className: 'carousel slide', 'data-ride': 'carousel', 'data-interval': '3000' },
-	        Helpers.createOrderedList(this.props.data),
-	        Helpers.createSlides(this.props.data),
+	        { style: containerStyles, id: 'carousel-example-generic', className: 'carousel slide', 'data-ride': 'carousel', 'data-interval': '4000', 'data-wrap': 'true' },
+	        carouselHelpers.createOrderedList(this.props.data),
+	        carouselHelpers.createSlides(this.props.data),
 	        React.createElement(
 	          'a',
 	          { className: 'left carousel-control', href: '#carousel-example-generic', role: 'button', 'data-slide': 'prev' },
@@ -24660,29 +24672,217 @@
 	module.exports = Carousel;
 
 /***/ },
-/* 214 */
+/* 215 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
+	"use strict";
+
+	/*
+	These helper methods iterate through carousel properties and create a 
+	list of expressions used in the carousel component
+	*/
+	var React = __webpack_require__(1);
+
+	module.exports = {
+	  createOrderedList: function createOrderedList(data) {
+	    var list = [];
+	    for (var i = 0; i < data.length; i++) {
+	      if (i === 0) {
+	        list.push(React.createElement("li", { key: i, "data-target": "#carousel-example-generic", "data-slide-to": i, className: "active" }));
+	      } else {
+	        list.push(React.createElement("li", { key: i, "data-target": "#carousel-example-generic", "data-slide-to": i }));
+	      }
+	    }
+	    return React.createElement(
+	      "ol",
+	      { className: "carousel-indicators" },
+	      " ",
+	      list,
+	      " "
+	    );
+	  },
+	  createSlides: function createSlideInner(data) {
+	    var Styles = {
+	      caption: {
+	        backgroundColor: "rgba(0,0,0,0.6)"
+	      },
+	      cover: {
+	        minWidth: "100%"
+	      },
+	      slide: {
+	        maxHeight: "75vh!important",
+	        height: "100%!important"
+	      }
+	    };
+	    var slides = [];
+	    for (var i = 0; i < data.length; i++) {
+	      if (i === 0) {
+	        slides.push(React.createElement(
+	          "div",
+	          { style: Styles.slide, className: "item active", key: data[i].episodeTitle },
+	          React.createElement("img", { style: Styles.cover, src: data[i].episodeCover, alt: data[i].showName }),
+	          React.createElement(
+	            "div",
+	            { style: Styles.caption, className: "carousel-caption" },
+	            React.createElement(
+	              "h1",
+	              null,
+	              data[i].showName
+	            ),
+	            React.createElement(
+	              "h3",
+	              null,
+	              data[i].episodeTitle
+	            ),
+	            React.createElement(
+	              "h5",
+	              null,
+	              data[i].episodeDes
+	            )
+	          )
+	        ));
+	      } else {
+	        slides.push(React.createElement(
+	          "div",
+	          { style: Styles.slide, className: "item", key: data[i].episodeTitle },
+	          React.createElement("img", { style: Styles.cover, src: data[i].episodeCover, alt: data[i].showName }),
+	          React.createElement(
+	            "div",
+	            { style: Styles.caption, className: "carousel-caption" },
+	            React.createElement(
+	              "h1",
+	              null,
+	              data[i].showName
+	            ),
+	            React.createElement(
+	              "h3",
+	              null,
+	              data[i].episodeTitle
+	            ),
+	            React.createElement(
+	              "h5",
+	              null,
+	              data[i].episodeDes
+	            )
+	          )
+	        ));
+	      }
+	    }
+	    return React.createElement(
+	      "div",
+	      { className: "carousel-inner", role: "listbox" },
+	      " ",
+	      slides,
+	      " "
+	    );
+	  }
+	};
+
+/***/ },
+/* 216 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
 
 	var React = __webpack_require__(1);
 
 	var ShowsNav = React.createClass({
-	  displayName: 'ShowsNav',
+	  displayName: "ShowsNav",
 
 	  render: function render() {
+	    console.log("ShowsNave:", this.props);
+	    if (!Object.keys(this.props.data).length) {
+	      return React.createElement(
+	        "div",
+	        null,
+	        "No Data to display"
+	      );
+	    }
 	    return React.createElement(
-	      'div',
+	      "div",
 	      null,
-	      'Nav Bar With Show Titles Here'
+	      React.createElement(
+	        "div",
+	        null,
+	        showTitles(this.props.data),
+	        showEpisodes(this.props.data)
+	      )
 	    );
 	  }
 	});
 
+	function showTitles(data) {
+	  var titles = [];
+	  var bool = true;
+	  var ref;
+	  for (var key in data) {
+	    console.log("REF:", ref);
+	    ref = "#" + key;
+	    if (!titles.length) {
+	      titles.push(React.createElement(
+	        "li",
+	        { key: data[key].name, role: "presentation", className: "active" },
+	        React.createElement(
+	          "a",
+	          { href: ref, "aria-controls": key, role: "tab", "data-toggle": "tab" },
+	          data[key].name
+	        )
+	      ));
+	    } else {
+	      titles.push(React.createElement(
+	        "li",
+	        { key: data[key].name, role: "presentation" },
+	        React.createElement(
+	          "a",
+	          { href: ref, "aria-controls": key, role: "tab", "data-toggle": "tab" },
+	          data[key].name
+	        )
+	      ));
+	    }
+	  }
+	  return React.createElement(
+	    "ul",
+	    { className: "nav nav-tabs", role: "tablist" },
+	    titles
+	  );
+	}
+
+	function showEpisodes(data) {
+	  var episodes = [];
+	  for (var key in data) {
+	    if (!episodes.length) {
+	      episodes.push(React.createElement(
+	        "div",
+	        { key: key, role: "tabpanel", className: "tab-pane active", id: key },
+	        React.createElement(
+	          "div",
+	          { className: "well" },
+	          data[key].name
+	        )
+	      ));
+	    } else {
+	      episodes.push(React.createElement(
+	        "div",
+	        { key: key, role: "tabpanel", className: "tab-pane", id: key },
+	        React.createElement(
+	          "div",
+	          { className: "well" },
+	          data[key].name
+	        )
+	      ));
+	    }
+	  }
+	  return React.createElement(
+	    "div",
+	    { className: "tab-content" },
+	    episodes
+	  );
+	}
+
 	module.exports = ShowsNav;
 
 /***/ },
-/* 215 */
+/* 217 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -24711,129 +24911,39 @@
 	module.exports = Grid;
 
 /***/ },
-/* 216 */
-/***/ function(module, exports, __webpack_require__) {
+/* 218 */
+/***/ function(module, exports) {
 
 	"use strict";
 
 	/*
-	Helper functions 
-	  DataHelpers - restructure data response from API endpoint
-	  CarouselHelpers - iterate through component propes to create jsx epressions
+	These helper methods iterate through the API Enpoint response and filter useful data
+	used by the carousel, shows, and grid component components 
 	*/
-	var React = __webpack_require__(1);
 
 	module.exports = {
-	  dataHelpers: {
-	    getShows: function getShows(data) {
-	      var shows = {};
-	      for (var i = 0; i < data.length; i++) {
-	        if (!shows[data[i].show.data.slug]) {
-	          shows[data[i].show.data.slug] = Show(data[i].show.data.name);
-	        }
-	        var episode = Episode(data[i].name, data[i].summary, data[i].thumbnails.small.data.url, data[i].thumbnails.large.data.url);
-	        shows[data[i].show.data.slug].episodes.push(episode);
+	  getShows: function getShows(data) {
+	    var shows = {};
+	    for (var i = 0; i < data.length; i++) {
+	      if (!shows[data[i].show.data.slug]) {
+	        shows[data[i].show.data.slug] = Show(data[i].show.data.name);
 	      }
-	      return shows;
-	    },
-	    getCarouselData: function getCarouselData(list) {
-	      var shows = [];
-	      for (var key in list) {
-	        shows.push({
-	          showName: list[key].name,
-	          episodeTitle: list[key].episodes[0].title,
-	          episodeDes: list[key].episodes[0].description,
-	          episodeCover: list[key].episodes[0].cover
-	        });
-	      }
-	      return shows;
+	      var episode = Episode(data[i].name, data[i].summary, data[i].thumbnails.small.data.url, data[i].thumbnails.large.data.url);
+	      shows[data[i].show.data.slug].episodes.push(episode);
 	    }
+	    return shows;
 	  },
-	  carouselHelpers: {
-	    createOrderedList: function createOrderedList(data) {
-	      var list = [];
-	      for (var i = 0; i < data.length; i++) {
-	        if (i === 0) {
-	          list.push(React.createElement("li", { key: i, "data-target": "#carousel-example-generic", "data-slide-to": i, className: "active" }));
-	        } else {
-	          list.push(React.createElement("li", { key: i, "data-target": "#carousel-example-generic", "data-slide-to": i }));
-	        }
-	      }
-	      console.log("LIST:", list.length);
-	      return React.createElement(
-	        "ol",
-	        { className: "carousel-indicators" },
-	        " ",
-	        list,
-	        " "
-	      );
-	    },
-	    createSlides: function createSlideInner(data) {
-	      var Styles = {
-	        backgroundColor: "rgba(0,0,0,0.6)"
-	      };
-	      var slides = [];
-	      for (var i = 0; i < data.length; i++) {
-	        if (i === 0) {
-	          slides.push(React.createElement(
-	            "div",
-	            { className: "item active", key: data[i].episodeTitle },
-	            React.createElement("img", { src: data[i].episodeCover, alt: data[i].showName }),
-	            React.createElement(
-	              "div",
-	              { style: Styles, className: "carousel-caption" },
-	              React.createElement(
-	                "h1",
-	                null,
-	                data[i].showName
-	              ),
-	              React.createElement(
-	                "h3",
-	                null,
-	                data[i].episodeTitle
-	              ),
-	              React.createElement(
-	                "h5",
-	                null,
-	                data[i].episodeDes
-	              )
-	            )
-	          ));
-	        } else {
-	          slides.push(React.createElement(
-	            "div",
-	            { className: "item", key: data[i].episodeTitle },
-	            React.createElement("img", { src: data[i].episodeCover, alt: data[i].showName }),
-	            React.createElement(
-	              "div",
-	              { style: Styles, className: "carousel-caption" },
-	              React.createElement(
-	                "h1",
-	                null,
-	                data[i].showName
-	              ),
-	              React.createElement(
-	                "h3",
-	                null,
-	                data[i].episodeTitle
-	              ),
-	              React.createElement(
-	                "h5",
-	                null,
-	                data[i].episodeDes
-	              )
-	            )
-	          ));
-	        }
-	      }
-	      return React.createElement(
-	        "div",
-	        { className: "carousel-inner", role: "listbox" },
-	        " ",
-	        slides,
-	        " "
-	      );
+	  getCarouselData: function getCarouselData(list) {
+	    var shows = [];
+	    for (var key in list) {
+	      shows.push({
+	        showName: list[key].name,
+	        episodeTitle: list[key].episodes[0].title,
+	        episodeDes: list[key].episodes[0].description,
+	        episodeCover: list[key].episodes[0].cover
+	      });
 	    }
+	    return shows;
 	  }
 	};
 
@@ -24856,7 +24966,7 @@
 	};
 
 /***/ },
-/* 217 */
+/* 219 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -24878,11 +24988,18 @@
 	    };
 	  },
 	  render: function render() {
+	    if (!Object.keys(this.props.data).length) {
+	      return React.createElement(
+	        'div',
+	        null,
+	        'No Data to display'
+	      );
+	    }
 	    return React.createElement(
 	      'div',
 	      null,
 	      'Shows : ',
-	      this.props.params.title
+	      this.props.data.dnews.name
 	    );
 	  }
 	});

@@ -4,9 +4,9 @@ This Component will render the home page with a list of all shows
 
 var React = require('react');
 var Carousel = require('./Carousel');
-var ShowsNav= require('./ShowsNav');
+var ShowsNav = require('./ShowsNav');
 var Grid = require('./ThumbnailsGrid');
-var Helpers = require('../Helpers').dataHelpers;
+var dataHelpers = require('../Helpers/dataHelpers');
 var url = "http://api.ddn.io/v1/homepage?domain=testtube.com";
 
 var Home = React.createClass({
@@ -19,8 +19,8 @@ var Home = React.createClass({
 
   componentDidMount: function() {
     this.serverRequest = $.get(url, function (result) {
-      var showsList = Helpers.getShows(result.episodes.data);
-      var carouselData = Helpers.getCarouselData(showsList);
+      var showsList = dataHelpers.getShows(result.episodes.data);
+      var carouselData = dataHelpers.getCarouselData(showsList);
       this.setState({
         carousel: carouselData,
         shows: showsList
@@ -29,19 +29,19 @@ var Home = React.createClass({
   },
 
   render: function(){
-    console.log(this.state);
     var styles = {
-      minWidth: "inherit !important",
-      width: "inherit !important"
+      main: {
+        background: "#34495e"
+      },
+      container: {
+        background: "#f8f8f8"
+      }
     };
     return (
-      <div style={styles}>
+      <div style={styles.main}>
         <Carousel data={this.state.carousel}/>
-        <div>
-          <ShowsNav />
-        </div>
-        <div>
-          <Grid />
+        <div style={styles.container} className="container">
+          <ShowsNav data={this.state.shows} />
         </div>
       </div>
     )

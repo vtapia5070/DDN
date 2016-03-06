@@ -1,20 +1,22 @@
 var React = require('react');
-var Helpers = require('../Helpers').carouselHelpers;
+var carouselHelpers = require('../Helpers/carouselHelpers');
 
 var Carousel = React.createClass({
   render: function () {
-    
+    var containerStyles = {
+      height: "75vh!important"
+    };
     if (!this.props.data.length) {
       return (
         <div>No Data</div>
       )
     }
     return (
-      <div >
-        <div id="carousel-example-generic" className="carousel slide" data-ride="carousel" data-interval="3000">
-          {Helpers.createOrderedList(this.props.data)}
+      <div>
+        <div style={containerStyles} id="carousel-example-generic" className="carousel slide" data-ride="carousel" data-interval="4000" data-wrap="true">
+          {carouselHelpers.createOrderedList(this.props.data)}
 
-          {Helpers.createSlides(this.props.data)}
+          {carouselHelpers.createSlides(this.props.data)}
 
           <a className="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
             <span className="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
