@@ -8,7 +8,7 @@ var navbarHelpers = require('../Helpers/navbarHelpers');
 
 var Styles = {
   navbar: {
-    fontFamily: "PT Serif, serif",
+    fontFamily: "'Noto Serif', serif",
     fontSize: "20px",
     margin: "0px !important"
   },

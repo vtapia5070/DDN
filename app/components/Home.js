@@ -21,6 +21,7 @@ var Home = React.createClass({
     this.serverRequest = $.get(url, function (result) {
       var showsList = dataHelpers.getShows(result.episodes.data);
       var carouselData = dataHelpers.getCarouselData(showsList);
+      console.log("SHOWSLIST:", showsList);
       this.setState({
         carousel: carouselData,
         shows: showsList
@@ -39,7 +40,7 @@ var Home = React.createClass({
     };
     return (
       <div style={styles.main}>
-        <Carousel data={this.state.carousel}/>
+        <Carousel data={this.state.carousel} />
         <div style={styles.container} className="container">
           <ShowsNav data={this.state.shows} />
         </div>
