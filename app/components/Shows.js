@@ -13,9 +13,12 @@ var Shows = React.createClass({
     }
   },
   render: function () {
+    if (!Object.keys(this.props.data).length) {
+      return <div>No Data to display</div>
+    }
     return (
       <div>
-        Shows : {this.props.params.title}
+        Shows : {this.props.data.dnews.name}
       </div>
     )
   }
