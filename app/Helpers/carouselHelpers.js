@@ -37,7 +37,7 @@ module.exports = {
             <img style={Styles.cover} src={data[i].episodeCover} alt={data[i].showName}/>
             <div style={Styles.caption} className="carousel-caption">
               <h1>{data[i].showName}</h1>
-              <h3>{data[i].episodeTitle}</h3>
+              <h3><em>{data[i].episodeTitle}</em></h3>
               <h5>{data[i].episodeDes}</h5>
             </div>
           </div>
@@ -48,7 +48,7 @@ module.exports = {
             <img style={Styles.cover} src={data[i].episodeCover} alt={data[i].showName} />
             <div style={Styles.caption} className="carousel-caption">
               <h1>{data[i].showName}</h1>
-              <h3>{data[i].episodeTitle}</h3>
+              <h3><em>{data[i].episodeTitle}</em></h3>
               <h5>{data[i].episodeDes}</h5>
             </div>
           </div>

@@ -10,7 +10,7 @@ module.exports = {
       if (!(shows[data[i].show.data.slug])) {
         shows[data[i].show.data.slug] = Show(data[i].show.data.name)
       }
-      var episode = Episode(data[i].name, data[i].summary, data[i].thumbnails.small.data.url, data[i].thumbnails.large.data.url);
+      var episode = Episode(data[i].name, data[i].summary, data[i].thumbnails.medium.data.url, data[i].thumbnails.large.data.url);
       shows[data[i].show.data.slug].episodes.push(episode);
     }
     return shows;

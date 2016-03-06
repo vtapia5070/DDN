@@ -24461,7 +24461,7 @@
 
 	var Styles = {
 	  navbar: {
-	    fontFamily: "PT Serif, serif",
+	    fontFamily: "'Noto Serif', serif",
 	    fontSize: "20px",
 	    margin: "0px !important"
 	  },
@@ -24582,6 +24582,7 @@
 	    this.serverRequest = $.get(url, function (result) {
 	      var showsList = dataHelpers.getShows(result.episodes.data);
 	      var carouselData = dataHelpers.getCarouselData(showsList);
+	      console.log("SHOWSLIST:", showsList);
 	      this.setState({
 	        carousel: carouselData,
 	        shows: showsList
@@ -24732,7 +24733,11 @@
 	            React.createElement(
 	              "h3",
 	              null,
-	              data[i].episodeTitle
+	              React.createElement(
+	                "em",
+	                null,
+	                data[i].episodeTitle
+	              )
 	            ),
 	            React.createElement(
 	              "h5",
@@ -24757,7 +24762,11 @@
 	            React.createElement(
 	              "h3",
 	              null,
-	              data[i].episodeTitle
+	              React.createElement(
+	                "em",
+	                null,
+	                data[i].episodeTitle
+	              )
 	            ),
 	            React.createElement(
 	              "h5",
@@ -24782,102 +24791,35 @@
 /* 216 */
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 
 	var React = __webpack_require__(1);
+	var showsNavHelpers = __webpack_require__(220);
 
 	var ShowsNav = React.createClass({
-	  displayName: "ShowsNav",
+	  displayName: 'ShowsNav',
 
 	  render: function render() {
 	    console.log("ShowsNave:", this.props);
 	    if (!Object.keys(this.props.data).length) {
 	      return React.createElement(
-	        "div",
+	        'div',
 	        null,
-	        "No Data to display"
+	        'No Data to display'
 	      );
 	    }
 	    return React.createElement(
-	      "div",
+	      'div',
 	      null,
 	      React.createElement(
-	        "div",
+	        'div',
 	        null,
-	        showTitles(this.props.data),
-	        showEpisodes(this.props.data)
+	        showsNavHelpers.showTitles(this.props.data),
+	        showsNavHelpers.showEpisodes(this.props.data)
 	      )
 	    );
 	  }
 	});
-
-	function showTitles(data) {
-	  var titles = [];
-	  var bool = true;
-	  var ref;
-	  for (var key in data) {
-	    console.log("REF:", ref);
-	    ref = "#" + key;
-	    if (!titles.length) {
-	      titles.push(React.createElement(
-	        "li",
-	        { key: data[key].name, role: "presentation", className: "active" },
-	        React.createElement(
-	          "a",
-	          { href: ref, "aria-controls": key, role: "tab", "data-toggle": "tab" },
-	          data[key].name
-	        )
-	      ));
-	    } else {
-	      titles.push(React.createElement(
-	        "li",
-	        { key: data[key].name, role: "presentation" },
-	        React.createElement(
-	          "a",
-	          { href: ref, "aria-controls": key, role: "tab", "data-toggle": "tab" },
-	          data[key].name
-	        )
-	      ));
-	    }
-	  }
-	  return React.createElement(
-	    "ul",
-	    { className: "nav nav-tabs", role: "tablist" },
-	    titles
-	  );
-	}
-
-	function showEpisodes(data) {
-	  var episodes = [];
-	  for (var key in data) {
-	    if (!episodes.length) {
-	      episodes.push(React.createElement(
-	        "div",
-	        { key: key, role: "tabpanel", className: "tab-pane active", id: key },
-	        React.createElement(
-	          "div",
-	          { className: "well" },
-	          data[key].name
-	        )
-	      ));
-	    } else {
-	      episodes.push(React.createElement(
-	        "div",
-	        { key: key, role: "tabpanel", className: "tab-pane", id: key },
-	        React.createElement(
-	          "div",
-	          { className: "well" },
-	          data[key].name
-	        )
-	      ));
-	    }
-	  }
-	  return React.createElement(
-	    "div",
-	    { className: "tab-content" },
-	    episodes
-	  );
-	}
 
 	module.exports = ShowsNav;
 
@@ -24895,15 +24837,35 @@
 	*/
 
 	var React = __webpack_require__(1);
+	var thumbnailGridHelpers = __webpack_require__(221);
 
 	var Grid = React.createClass({
 	  displayName: 'Grid',
 
 	  render: function render() {
+	    if (!this.props.data) {
+	      return React.createElement(
+	        'div',
+	        null,
+	        'No State'
+	      );
+	    }
+	    console.log("props key:", this.props.data);
+	    var styles = {
+	      fontFamily: "'Noto Serif', serif",
+	      fontWeight: 700,
+	      fontStyle: "italic",
+	      color: "#95a5a6"
+	    };
 	    return React.createElement(
 	      'div',
 	      null,
-	      'Grid of show/episode thumbnails here'
+	      React.createElement(
+	        'h1',
+	        { style: styles },
+	        'Episodes'
+	      ),
+	      thumbnailGridHelpers.getThumbnails(this.props.data.episodes)
 	    );
 	  }
 	});
@@ -24928,7 +24890,7 @@
 	      if (!shows[data[i].show.data.slug]) {
 	        shows[data[i].show.data.slug] = Show(data[i].show.data.name);
 	      }
-	      var episode = Episode(data[i].name, data[i].summary, data[i].thumbnails.small.data.url, data[i].thumbnails.large.data.url);
+	      var episode = Episode(data[i].name, data[i].summary, data[i].thumbnails.medium.data.url, data[i].thumbnails.large.data.url);
 	      shows[data[i].show.data.slug].episodes.push(episode);
 	    }
 	    return shows;
@@ -25005,6 +24967,150 @@
 	});
 
 	module.exports = Shows;
+
+/***/ },
+/* 220 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	/*
+	These helper methods create jsx expressions for the showsNav component
+	passed in the props data from the Home components
+	*/
+
+	var React = __webpack_require__(1);
+	var ThumbnailsGrid = __webpack_require__(217);
+
+	module.exports = {
+	  showTitles: function showTitles(data) {
+	    var titles = [];
+	    var bool = true;
+	    var ref;
+	    var Styles = {
+	      fontFamily: "'Noto Serif', serif",
+	      fontSize: "18px"
+	    };
+	    for (var key in data) {
+	      ref = "#" + key;
+	      if (!titles.length) {
+	        titles.push(React.createElement(
+	          'li',
+	          { style: Styles, key: data[key].name, role: 'presentation', className: 'active' },
+	          React.createElement(
+	            'a',
+	            { href: ref, 'aria-controls': key, role: 'tab', 'data-toggle': 'tab' },
+	            data[key].name
+	          )
+	        ));
+	      } else {
+	        titles.push(React.createElement(
+	          'li',
+	          { style: Styles, key: data[key].name, role: 'presentation' },
+	          React.createElement(
+	            'a',
+	            { href: ref, 'aria-controls': key, role: 'tab', 'data-toggle': 'tab' },
+	            data[key].name
+	          )
+	        ));
+	      }
+	    }
+	    return React.createElement(
+	      'ul',
+	      { className: 'nav nav-tabs', role: 'tablist' },
+	      titles
+	    );
+	  },
+	  showEpisodes: function showEpisodes(data) {
+	    var episodes = [];
+	    for (var key in data) {
+	      if (!episodes.length) {
+	        episodes.push(React.createElement(
+	          'div',
+	          { key: key, role: 'tabpanel', className: 'tab-pane active', id: key },
+	          React.createElement(
+	            'div',
+	            { className: 'well' },
+	            React.createElement(ThumbnailsGrid, { data: data[key] })
+	          )
+	        ));
+	      } else {
+	        episodes.push(React.createElement(
+	          'div',
+	          { key: key, role: 'tabpanel', className: 'tab-pane', id: key },
+	          React.createElement(
+	            'div',
+	            { className: 'well' },
+	            React.createElement(ThumbnailsGrid, { data: data[key] })
+	          )
+	        ));
+	      }
+	    }
+	    return React.createElement(
+	      'div',
+	      { className: 'tab-content' },
+	      episodes
+	    );
+	  }
+	};
+
+/***/ },
+/* 221 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	/*
+	These helper methods create the thumbnail component expressions for propr data
+	in the thumbnailGrid component
+	*/
+
+	var React = __webpack_require__(1);
+
+	module.exports = {
+	  getThumbnails: function getThumbnails(list) {
+	    var thumbnails = [];
+	    for (var i = 0; i < list.length; i++) {
+	      thumbnails.push(React.createElement(
+	        "div",
+	        { className: "col-sm-6 col-md-4" },
+	        React.createElement(
+	          "div",
+	          { className: "thumbnail" },
+	          React.createElement("img", { src: list[i].thumbnail }),
+	          React.createElement(
+	            "div",
+	            { className: "caption" },
+	            React.createElement(
+	              "h3",
+	              null,
+	              list[i].title
+	            ),
+	            React.createElement(
+	              "p",
+	              null,
+	              list[i].description
+	            ),
+	            React.createElement(
+	              "p",
+	              null,
+	              React.createElement(
+	                "a",
+	                { href: "#", className: "btn btn-primary", role: "button" },
+	                "Watch Now"
+	              )
+	            )
+	          )
+	        )
+	      ));
+	    }
+	    return React.createElement(
+	      "div",
+	      { className: "row" },
+	      thumbnails
+	    );
+	  }
+	};
 
 /***/ }
 /******/ ]);
