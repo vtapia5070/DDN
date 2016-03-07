@@ -21,7 +21,6 @@ var Home = React.createClass({
     this.serverRequest = $.get(url, function (result) {
       var showsList = dataHelpers.getShows(result.episodes.data);
       var carouselData = dataHelpers.getCarouselData(showsList);
-      console.log("SHOWSLIST:", showsList);
       this.setState({
         carousel: carouselData,
         shows: showsList

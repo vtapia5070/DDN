@@ -1,8 +1,8 @@
 /*
 This component creates the view for all of the shows
 or episodes and renders a grid-like table of thumbnails
-and descriptions.
-http://getbootstrap.com/components/#thumbnails
+and descriptions.s
+http://getbootstrap.com/components/#thumbnail
 */
 
 var React = require('react');
@@ -13,7 +13,6 @@ var Grid = React.createClass({
     if (!this.props.data) {
       return <div>No State</div>
     }
-    console.log("props key:", this.props.data);
     var styles = {
       fontFamily: "'Noto Serif', serif",
       fontWeight: 700,

@@ -10,7 +10,7 @@ module.exports = {
     var thumbnails = [];
     for (var i = 0; i < list.length; i++) {
       thumbnails.push(
-        <div className="col-sm-6 col-md-4">
+        <div key={i} className="col-sm-6 col-md-4">
           <div className="thumbnail">
             <img src={list[i].thumbnail} />
             <div className="caption">

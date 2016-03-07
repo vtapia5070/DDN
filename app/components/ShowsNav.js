@@ -3,7 +3,6 @@ var showsNavHelpers = require('../Helpers/showsNavHelpers');
 
 var ShowsNav = React.createClass({
   render: function () {
-    console.log("ShowsNave:", this.props)
     if (!Object.keys(this.props.data).length) {
       return <div>No Data to display</div>
     }

@@ -24435,13 +24435,11 @@
 	var Home = __webpack_require__(213);
 	var Router = __webpack_require__(159);
 	var Route = Router.Route;
-	var Show = __webpack_require__(219);
 	var IndexRoute = Router.IndexRoute;
 
 	module.exports = React.createElement(
 	  Route,
 	  { path: '/', component: Navbar },
-	  React.createElement(Route, { path: 'show/:title', component: Show }),
 	  React.createElement(IndexRoute, { component: Home })
 	);
 
@@ -24564,8 +24562,8 @@
 	var React = __webpack_require__(1);
 	var Carousel = __webpack_require__(214);
 	var ShowsNav = __webpack_require__(216);
-	var Grid = __webpack_require__(217);
-	var dataHelpers = __webpack_require__(218);
+	var Grid = __webpack_require__(218);
+	var dataHelpers = __webpack_require__(220);
 	var url = "http://api.ddn.io/v1/homepage?domain=testtube.com";
 
 	var Home = React.createClass({
@@ -24582,7 +24580,6 @@
 	    this.serverRequest = $.get(url, function (result) {
 	      var showsList = dataHelpers.getShows(result.episodes.data);
 	      var carouselData = dataHelpers.getCarouselData(showsList);
-	      console.log("SHOWSLIST:", showsList);
 	      this.setState({
 	        carousel: carouselData,
 	        shows: showsList
@@ -24794,13 +24791,12 @@
 	'use strict';
 
 	var React = __webpack_require__(1);
-	var showsNavHelpers = __webpack_require__(220);
+	var showsNavHelpers = __webpack_require__(217);
 
 	var ShowsNav = React.createClass({
 	  displayName: 'ShowsNav',
 
 	  render: function render() {
-	    console.log("ShowsNave:", this.props);
 	    if (!Object.keys(this.props.data).length) {
 	      return React.createElement(
 	        'div',
@@ -24830,157 +24826,12 @@
 	'use strict';
 
 	/*
-	This component creates the view for all of the shows
-	or episodes and renders a grid-like table of thumbnails
-	and descriptions.
-	http://getbootstrap.com/components/#thumbnails
-	*/
-
-	var React = __webpack_require__(1);
-	var thumbnailGridHelpers = __webpack_require__(221);
-
-	var Grid = React.createClass({
-	  displayName: 'Grid',
-
-	  render: function render() {
-	    if (!this.props.data) {
-	      return React.createElement(
-	        'div',
-	        null,
-	        'No State'
-	      );
-	    }
-	    console.log("props key:", this.props.data);
-	    var styles = {
-	      fontFamily: "'Noto Serif', serif",
-	      fontWeight: 700,
-	      fontStyle: "italic",
-	      color: "#95a5a6"
-	    };
-	    return React.createElement(
-	      'div',
-	      null,
-	      React.createElement(
-	        'h1',
-	        { style: styles },
-	        'Episodes'
-	      ),
-	      thumbnailGridHelpers.getThumbnails(this.props.data.episodes)
-	    );
-	  }
-	});
-
-	module.exports = Grid;
-
-/***/ },
-/* 218 */
-/***/ function(module, exports) {
-
-	"use strict";
-
-	/*
-	These helper methods iterate through the API Enpoint response and filter useful data
-	used by the carousel, shows, and grid component components 
-	*/
-
-	module.exports = {
-	  getShows: function getShows(data) {
-	    var shows = {};
-	    for (var i = 0; i < data.length; i++) {
-	      if (!shows[data[i].show.data.slug]) {
-	        shows[data[i].show.data.slug] = Show(data[i].show.data.name);
-	      }
-	      var episode = Episode(data[i].name, data[i].summary, data[i].thumbnails.medium.data.url, data[i].thumbnails.large.data.url);
-	      shows[data[i].show.data.slug].episodes.push(episode);
-	    }
-	    return shows;
-	  },
-	  getCarouselData: function getCarouselData(list) {
-	    var shows = [];
-	    for (var key in list) {
-	      shows.push({
-	        showName: list[key].name,
-	        episodeTitle: list[key].episodes[0].title,
-	        episodeDes: list[key].episodes[0].description,
-	        episodeCover: list[key].episodes[0].cover
-	      });
-	    }
-	    return shows;
-	  }
-	};
-
-	// constructor function to create show obj
-	function Show(name) {
-	  return {
-	    name: name,
-	    episodes: []
-	  };
-	}
-
-	// constructor function to create Episode obj
-	function Episode(title, description, thumbnail, cover) {
-	  return {
-	    title: title,
-	    description: description,
-	    thumbnail: thumbnail,
-	    cover: cover
-	  };
-	};
-
-/***/ },
-/* 219 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	/*
-	This component will render pages for each show and
-	list all of the episodes
-	*/
-
-	var React = __webpack_require__(1);
-	var Router = __webpack_require__(159).Router;
-
-	var Shows = React.createClass({
-	  displayName: 'Shows',
-
-	  getInitialState: function getInitialState() {
-	    return {
-	      shows: []
-	    };
-	  },
-	  render: function render() {
-	    if (!Object.keys(this.props.data).length) {
-	      return React.createElement(
-	        'div',
-	        null,
-	        'No Data to display'
-	      );
-	    }
-	    return React.createElement(
-	      'div',
-	      null,
-	      'Shows : ',
-	      this.props.data.dnews.name
-	    );
-	  }
-	});
-
-	module.exports = Shows;
-
-/***/ },
-/* 220 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	/*
 	These helper methods create jsx expressions for the showsNav component
 	passed in the props data from the Home components
 	*/
 
 	var React = __webpack_require__(1);
-	var ThumbnailsGrid = __webpack_require__(217);
+	var ThumbnailsGrid = __webpack_require__(218);
 
 	module.exports = {
 	  showTitles: function showTitles(data) {
@@ -25055,7 +24906,55 @@
 	};
 
 /***/ },
-/* 221 */
+/* 218 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	/*
+	This component creates the view for all of the shows
+	or episodes and renders a grid-like table of thumbnails
+	and descriptions.s
+	http://getbootstrap.com/components/#thumbnail
+	*/
+
+	var React = __webpack_require__(1);
+	var thumbnailGridHelpers = __webpack_require__(219);
+
+	var Grid = React.createClass({
+	  displayName: 'Grid',
+
+	  render: function render() {
+	    if (!this.props.data) {
+	      return React.createElement(
+	        'div',
+	        null,
+	        'No State'
+	      );
+	    }
+	    var styles = {
+	      fontFamily: "'Noto Serif', serif",
+	      fontWeight: 700,
+	      fontStyle: "italic",
+	      color: "#95a5a6"
+	    };
+	    return React.createElement(
+	      'div',
+	      null,
+	      React.createElement(
+	        'h1',
+	        { style: styles },
+	        'Episodes'
+	      ),
+	      thumbnailGridHelpers.getThumbnails(this.props.data.episodes)
+	    );
+	  }
+	});
+
+	module.exports = Grid;
+
+/***/ },
+/* 219 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -25073,7 +24972,7 @@
 	    for (var i = 0; i < list.length; i++) {
 	      thumbnails.push(React.createElement(
 	        "div",
-	        { className: "col-sm-6 col-md-4" },
+	        { key: i, className: "col-sm-6 col-md-4" },
 	        React.createElement(
 	          "div",
 	          { className: "thumbnail" },
@@ -25110,6 +25009,61 @@
 	      thumbnails
 	    );
 	  }
+	};
+
+/***/ },
+/* 220 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	/*
+	These helper methods iterate through the API Enpoint response and filter useful data
+	used by the carousel, shows, and grid component components 
+	*/
+
+	module.exports = {
+	  getShows: function getShows(data) {
+	    var shows = {};
+	    for (var i = 0; i < data.length; i++) {
+	      if (!shows[data[i].show.data.slug]) {
+	        shows[data[i].show.data.slug] = Show(data[i].show.data.name);
+	      }
+	      var episode = Episode(data[i].name, data[i].summary, data[i].thumbnails.medium.data.url, data[i].thumbnails.large.data.url);
+	      shows[data[i].show.data.slug].episodes.push(episode);
+	    }
+	    return shows;
+	  },
+	  getCarouselData: function getCarouselData(list) {
+	    var shows = [];
+	    for (var key in list) {
+	      shows.push({
+	        showName: list[key].name,
+	        episodeTitle: list[key].episodes[0].title,
+	        episodeDes: list[key].episodes[0].description,
+	        episodeCover: list[key].episodes[0].cover
+	      });
+	    }
+	    return shows;
+	  }
+	};
+
+	// constructor function to create show obj
+	function Show(name) {
+	  return {
+	    name: name,
+	    episodes: []
+	  };
+	}
+
+	// constructor function to create Episode obj
+	function Episode(title, description, thumbnail, cover) {
+	  return {
+	    title: title,
+	    description: description,
+	    thumbnail: thumbnail,
+	    cover: cover
+	  };
 	};
 
 /***/ }
