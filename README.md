@@ -23,4 +23,4 @@ $ npm install webpack -g
 ## Development
 1. __Run webpack with the following command:__
   ``` webpack -w```
-2. __Open the index.html file in your browser.__
+2. __Open the public/index.html file in your browser.__
